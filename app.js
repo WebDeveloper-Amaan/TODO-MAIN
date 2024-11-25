@@ -175,5 +175,39 @@ function showJumpToSearchMessage() {
   }, 3000);
 }
 
+function filterByDate(date) {
+  // Convert the input date into a comparable format (dd/mm/yyyy)
+  const formattedDate = new Date(date).toLocaleDateString('en-GB'); // Format as dd/mm/yyyy
+
+  // Filter tasks that match the given date
+  const filteredTasks = todosJson.filter(todo => {
+    // Extract only the date part of the timestamp (without time)
+    const taskDate = todo.timestamp.split(' ')[0];
+    return taskDate === formattedDate;
+  });
+
+  // Display the filtered tasks or a message if no tasks match
+  if (filteredTasks.length === 0) {
+    todosHtml.innerHTML = '<li>No tasks found for this date.</li>';
+    emptyImage.style.display = 'none'; // Hide the empty image
+  } else {
+    todosHtml.innerHTML = filteredTasks.map((todo, index) => getTodoHtml(todo, index)).join('');
+    emptyImage.style.display = 'none'; // Hide the empty image
+  }
+}
+
+const filterByDateButton = document.querySelector("#filterByDateButton");
+const dateInput = document.querySelector("#dateInput");
+
+filterByDateButton.addEventListener("click", () => {
+  const selectedDate = dateInput.value; // Get the date from the input
+  if (!selectedDate) {
+    alert("Please select a date!");
+    return;
+  }
+  filterByDate(selectedDate);
+});
+
+
 // Display todos on page load
 showTodos();
