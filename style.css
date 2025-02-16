@@ -273,7 +273,6 @@ button.remove:active {
   background-color: #0056b3;
 }
 
-
 /* Animation for fading in */
 @keyframes fadeIn {
   from { opacity: 0; }
